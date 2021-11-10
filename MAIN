@@ -1,0 +1,207 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class Calculator implements ActionListener {
+	JFrame frame;
+	JTextField tf ,tf2;
+	JButton[] numButtons = new JButton[10];
+	JButton[] fonButtons = new JButton[10];
+	JButton addBtn,subBtn, mulBtn,divBtn;
+	JButton decBtn,equBtn, delBtn,clrBtn , negBtn ,offBtn;
+	JPanel panel;
+	Font myfont= new Font("Ink Free", Font.BOLD,30);
+	Font myfont1= new Font("Ink Free", Font.BOLD,10);
+	double num1=0,num2=0,res=0;
+	char opr;
+	 
+	Calculator(){
+		//frame styling
+		frame= new JFrame("Calculator");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		frame.setSize(420, 550);
+		frame.setLayout(null);
+       
+        
+        //Textfield styling *-* enjoy coding rasha 
+        tf= new JTextField();
+        tf2= new JTextField();
+        tf.setBounds(50,25,300,50);
+        tf2.setBounds(50,25,300,50);
+        tf.setFont(myfont);
+        tf.setEditable(false);
+        tf2.setEditable(false);
+        
+        
+        //BTN
+        addBtn= new JButton("+");
+        subBtn= new JButton("-");
+        mulBtn= new JButton("*");
+        divBtn= new JButton("/");
+        decBtn= new JButton(".");
+        equBtn= new JButton("=");
+        delBtn= new JButton("<");//delete
+        clrBtn= new JButton("C");//CLEAR
+        negBtn=new JButton("(-)");//make it negative
+        offBtn=new JButton("ON/OFF");
+       
+        
+        
+        fonButtons[0]=addBtn;
+        fonButtons[1]=subBtn;
+        fonButtons[2]=mulBtn;
+        fonButtons[3]=divBtn;
+        fonButtons[4]=decBtn;
+        fonButtons[5]=equBtn;
+        fonButtons[6]=delBtn;
+        fonButtons[7]=clrBtn;
+        fonButtons[8]=negBtn;
+        fonButtons[9]=offBtn;
+        
+        for(int i=0;i<10;i++) {
+        	fonButtons[i].addActionListener(this);
+        	fonButtons[i].setFont(myfont);
+        	fonButtons[i].setFocusable(false);
+        }
+        fonButtons[9].setFont(myfont1);
+        // NUM BTNS FROM 0 TO 10
+        for(int i=0;i<10;i++) {
+        	numButtons[i]= new JButton(String.valueOf(i));
+        	numButtons[i].addActionListener(this);
+        	numButtons[i].setFont(myfont);
+        	numButtons[i].setFocusable(false);
+        }
+        delBtn.setBounds(200, 100, 75, 50);
+        clrBtn.setBounds(275, 100, 75, 50);
+        negBtn.setBounds(125, 100, 75, 50);
+        offBtn.setBounds(50, 100, 75, 50);
+        
+        panel= new JPanel();
+        panel.setBounds(50, 150, 300, 300);
+        panel.setLayout(new GridLayout(4,5,0,0));
+        panel.setBackground(Color.black);
+        //adding btns to the panel
+        panel.add(numButtons[1]);
+        panel.add(numButtons[2]);
+        panel.add(numButtons[3]);
+        panel.add(addBtn);
+        panel.add(numButtons[4]);
+        panel.add(numButtons[5]);
+        panel.add(numButtons[6]);
+        panel.add(subBtn);
+        panel.add(numButtons[7]);
+        panel.add(numButtons[8]);
+        panel.add(numButtons[9]);
+        panel.add(mulBtn);
+        panel.add(decBtn);
+        panel.add(numButtons[0]);
+        panel.add(equBtn);
+        panel.add(divBtn);
+        
+        //adding elements to the frame one by one don'T tansay balizz rasha 
+        
+        frame.add(tf);
+        frame.add(offBtn);
+        frame.add(negBtn);
+        frame.add(delBtn);
+        frame.add(clrBtn);
+        frame.add(panel);
+        frame.setVisible(true);	
+        
+	}
+
+	public static void main(String[] args) {
+Calculator calc = new Calculator();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		  for(int i=0;i<10;i++) {
+if(e.getSource()== numButtons[i]) { // SHOWING NUMBERS F TEXTFLD
+tf.setText(tf.getText().concat(String.valueOf(i)));	
+}
+	        }
+		  if(e.getSource()== decBtn) {
+			  tf.setText(tf.getText().concat("."));
+		  }
+		  if(e.getSource()== addBtn) {
+			  num1=Double.parseDouble(tf.getText());
+			  opr='+';
+			  tf.setText("");
+			  
+		  }
+		  if(e.getSource()== subBtn) {
+			  num1=Double.parseDouble(tf.getText());
+			  opr='-';
+			  tf.setText("");
+			  
+		  }
+		  if(e.getSource()== mulBtn) {
+			  num1=Double.parseDouble(tf.getText());
+			  opr='*';
+			  tf.setText("");
+			  
+		  }
+		  if(e.getSource()== divBtn) {
+			  num1=Double.parseDouble(tf.getText());
+			  opr='/';
+			  tf.setText("");
+			  
+		  }
+		  if(e.getSource()== equBtn) {
+			  num2=Double.parseDouble(tf.getText());
+			switch (opr) {
+			case '+' : 
+				res=num1+num2;
+				break;
+			case '-' : 
+				res=num1-num2;
+				break;
+			case '*' : 
+				res=num1*num2;
+				break;
+			case '/' : 
+				res=num1/num2;
+				break;
+		
+			}
+			  tf.setText(String.valueOf(res)); //updatting affichage
+			  num1=res; // IF U WANNA TKAMAL USING RES
+			  
+		  }
+		  if(e.getSource()== clrBtn) {
+			  tf.setText("");
+			  
+		  }
+		  if(e.getSource()== delBtn) {
+			  String s= tf.getText();
+			  tf.setText("");
+			  for(int i=0;i<s.length()-1;i++) {
+				  tf.setText(tf.getText()+s.charAt(i));
+			  }
+		  
+			  
+		  }
+		  if(e.getSource()== negBtn) {
+			  double temp= Double.parseDouble(tf.getText());
+			  temp= temp*(-1);
+			  tf.setText(String.valueOf(temp));
+			 
+			  }
+		  if(e.getSource()== offBtn) {
+			  if(tf.isVisible()) {
+				  tf2.setText("");
+				
+
+				tf.setVisible(false);
+				  
+				  
+				  
+			  }else {
+				
+				  tf.setVisible(true);
+			  }
+			 
+			  }
+	}
+
+}
